@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <link href="../lib/bootstrap.css" rel="stylesheet" />
+    <script src="../lib/jquery.1.9.1.js"></script>
+    <script src="../js/fileuploader.js"></script>
+    <link href="../css/fileuploader.css" rel="stylesheet" />
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        .main {
+            padding-top: 50px;
+            width: 80%;
+            /*margin: 0 10% 0 10%;*/
+            height: 100%;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+    <div class="container main">
+        <input type="hidden" id="id_fileuploader" />
+
+    </div>
+    <script>
+        $('#id_fileuploader').fileuploader({
+            url: '../service/fileuploader.ashx',
+            fileid: '',
+            fileuploadcountmax: 0,
+            multiple: true,
+            disable: false,
+            samefilename: '123456',
+            fileuploadsizemax: 0,
+            beforeallupload: function ($e, data)
+            {
+                console.log("beforeallupload", data);
+                return true;
+            },
+            alluploadend: function ($e, data)
+            {
+
+                console.log("alluploadend", data);
+                return false;
+            },
+            downloadend: function ($e, data)
+            {
+                console.log("downloadend", data);
+                return true;
+            },
+            beforedownload: function ($e, data)
+            {
+                console.log("beforedownload", data);
+                return true;
+            },
+            beforedelete: function ($e, data)
+            {
+                console.log("beforedelete", data);
+                return true;
+            },
+            deleteend: function ($e, data)
+            {
+                console.log("deleteend", data);
+                return true;
+            },
+            //beforeupload: function ($e, filedata)
+            //{
+            //    return true;
+            //},
+            files: [
+                 '屁股朝上的狐狸.gif', '360se8.1.1.240.exe', 'sp77155.exe'
+            ]
+        }).on('change', function ($e, type, data)
+        {
+            console.log(type, data);
+        }).on('change', function ()
+        {
+            console.log('second time')
+        })
+        //    .on('beforeupload', function ()
+        //{
+        //    debugger
+        //    console.log('ddd')
+        //    return false;
+        //});
+        //$('#id_fileuploader').on('bb', function ($e, callback)
+        //{
+        //    return false;
+        //})
+        //var x = ($.event.trigger('bb', [], $('#id_fileuploader')[0]))
+        ////$('#id_fileuploader').trigger('bb', function () { console.log('done') });
+
+        //var dd = { "abc": "cde" };
+        //var xx = $(dd);
+        //xx.on('bb', function ()
+        //{
+        //    console.log('abasdfasdc');
+        //})
+        //xx.trigger("bb");
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿.fileuploader-container {
+    display: inline-block;
+    width: 100%;
+}
+
+.fileupload-container .progress {
+    width: 100%;
+}
+
+.fileuploader-container .hidden {
+    display: none !important;
+}
+
+.div-file-manyvalues {
+    border: solid 1px #e7e7e7;
+    cursor: pointer;
+    background-color: #ffffe1;
+}
+
+.div-table td {
+    padding: 0;
+}
+
+.margin1 {
+    margin: 1px;
+}
+
+
+.nomargin {
+    margin: 0;
+}
+
+
+.disabled {
+    background-color: rgba(80,80,80,0.3);
+    cursor: not-allowed;
+}
+
+.div-table {
+    margin-top: 2px;
+}
+
+.fileuploader-msg {
+    margin-left: 2px;
+}
