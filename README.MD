@@ -78,12 +78,10 @@
         {
             
             getoptions : 获取当前控件的配置 ok
-            
             getcontent : 获取当前控件的内容【数组：[{FileContent}]】 ok
-
             getfilecount : 获取当前控件上传的文件数量 ok
 
-            loadcontent : 加载数据
+            loadcontent : 加载数据 ok
             
             disable : 设置/获取 可用状态 ok
         }

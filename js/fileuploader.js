@@ -1,4 +1,4 @@
-﻿/// <reference path="C:\inetpub\wwwroot\fileupload\fileupload\lib\jquery.1.9.1.js" />
+﻿/// <reference path="../lib/jquery.1.9.1.js" />
 
 /*
 * 说明：1、这个程序本身并不考虑传输的问题，保证传输的正确性这件事应该由浏览器来做，程序认为每次传输都是正确的，如果失败了，则直接导致这个文件的传输失败
@@ -43,7 +43,7 @@
         , 'downloadend.fileuploader': 文件下载之后【根据返回值确定是否继续】ok
         --后续
             change 发生变化，即删除之后和所有上传结束之后--ok
-            beforeallupload 第一次上传之前，因为以前有过一个很诡异的要求:
+            beforeallupload 第一次上传之前，因为以前有过一个很诡异的要求: --ok
                             我们做的gis，有一组shp文件，在操作中是一个个体，但是作为文件系统来看，却又是一组（六个-其实只要四个就可以用）文件，所以会在上传之前校验一下文件类型，文件名，所以添加一个事件
                             原来做的时候直接把这个功能嵌入到控件里面来了，但是我想来想去都觉得不是很合理
                             这里改一下，加一个事件，用户可以直接在上传之前获取到当前上传的文件数据，以及控件中已有的所有文件数据，以此可以判断是否允许上传
@@ -79,8 +79,9 @@
         删除所有 | 删除单个文件的功能，可以自行调用后台删除文件后，重新绑定列表即可
     }
 */
-(function ($)
+(function ($, UNDEFINED)
 {
+
     'use strict';
     var FileUploader = function ($el, options)
     {
@@ -92,9 +93,8 @@
         this.init();
         this.count2upload = 0;
         this.countuploaded = 0;
-
     };
-    //文件内容的标准格式，有这几个就够了，本来打算再有一个file的引用，但是考虑到内存问题，这里去除了对file二进制的引用。对文件的二进制引用应该是在上传完毕之后直接释放，不能再任何地方继续引用，否则可能会造成内存占用无法释放，在js中尤其要考虑这种问题
+    //文件内容的标准格式，有这几个就够了，本来打算再有一个file的引用，但是考虑到内存问题，这里去除了对file二进制的引用。对文件的二进制引用应该是在上传完毕之后直接释放（当然程序员控制不了，禁止引用它就对了），不能再任何地方继续引用，否则可能会造成内存占用无法释放，在js中尤其要考虑这种问题
     var FileContent = function (filename, filesize, filecode, extdata)
     {
         this.filename = filename;
@@ -103,6 +103,14 @@
         this.extdata = extdata;
     }
 
+    var endsWith = String.prototype.endsWith || function (str)
+    {
+        if (this.lastIndexOf(str) + str.length === this.length)
+        {
+            return true;
+        }
+        return false;
+    }
 
     var ajaxFailCall = function (message)
     {
@@ -231,7 +239,7 @@
     //默认的事件
     FileUploader.EVENTS = {
         'change.fileuploader': function ($e, type, data) { return true; }
-        , 'beforeupload.fileuploader': function ($e, data) {  return true; }
+        , 'beforeupload.fileuploader': function ($e, data) { return true; }
         , 'fileuploadend.fileuploader': function ($e, data) { return true; }
         , 'fileuploaderror.fileuploader': function ($e, data) { return true; }
         , 'alluploadend.fileuploader': function ($e, data) { return true; }
@@ -288,7 +296,7 @@
         _trigger: function (type, data)
         {
             var result = $.event.trigger(type.split('.')[0], data, this.$el[0]);
-            if (undefined !== result)
+            if (UNDEFINED !== result)
             {
                 return result;
             }
@@ -635,7 +643,7 @@
                 return !!a;
             }), function (i, a)
             {
-                if (filename.endsWith(a))
+                if (endsWith.call(filename, a))
                 {
                     isExtNameRight = true;
                     return false;
@@ -707,7 +715,7 @@
 
         disable: function (disable)
         {
-            if (disable === undefined)
+            if (disable === UNDEFINED)
             {
                 return this.options.disable;
             }
@@ -730,7 +738,7 @@
 
     $.fn.fileuploader = function (fname)
     {
-        var value;
+        var value = UNDEFINED;
         var args = slice.call(arguments, 1);
         this.each(function (i, a)
         {
@@ -745,11 +753,11 @@
             } else if ('string' === typeof (fname))
             {
                 //这个方式是从bootstraptable中学来的，但是我觉得这里应该是这样，否则会取到最后一个的值，记得原来看jquery插件开发的教程时人家写的，赋值的时候全部赋值，取值的时候取第一个
-                value = value || uploader[fname].apply(uploader, args);//先不考虑如何调用方法
+                value = value === UNDEFINED ? uploader[fname].apply(uploader, args) : value;
             }
         });
         // return value || this;//这里有可能value的值是false
-        return value === undefined ? this : value;
+        return value === UNDEFINED ? this : value;
     }
 
     $.fn.fileuploader.setDefaultOptions = function (option)
