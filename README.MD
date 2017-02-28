@@ -45,7 +45,7 @@
             , "beforedelete.fileuploader": 文件删除之前【根据返回值确定是否继续】ok
             , "deleteend.fileuploader": 文件删除之后【控件刷新之后】ok
             , 'beforedownload.fileuploader': 文件下载之前【根据返回值确定是否继续】ok
-            , 'downloadend.fileuploader': 文件下载之后【根据返回值确定是否继续】ok
+            , 'downloadend.fileuploader': 文件下载之后 【这个事件纯粹就是点击下载按钮之后触发一下，并不能真正捕捉到下载完成事件】ok
             
             , change 发生变化，即删除之后和所有上传结束之后--ok
             , beforeallupload 上传之前，因为以前有过一个很诡异的要求:
