@@ -68,16 +68,27 @@ namespace fileupload.service
                                 throw new Exception("文件已存在");
                             }
                         }
-                        fs = File.Open(filepath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
-                        //这里并没有进行循环读取，是直接按照前台给出的大小进行读取的，所以理论上不需要循环（如果考虑后端的内存消耗问题，这里可以改成由后端自己控制，循环读取）
-                        byte[] bytes = new byte[filestep];
-                        int length = req.InputStream.Read(bytes, 0, filestep);
-                        //fs.Seek(offset, SeekOrigin.Begin);
-                        fs.Position = offset;
-                        fs.Write(bytes, 0, length);
-                        fs.Flush();
-                        fs.Dispose();
-                        fs.Close();
+                        try
+                        {
+                            fs = File.Open(filepath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
+                            //这里并没有进行循环读取，是直接按照前台给出的大小进行读取的，所以理论上不需要循环（如果考虑后端的内存消耗问题，这里可以改成由后端自己控制，循环读取）
+                            byte[] bytes = new byte[filestep];
+                            int length = req.InputStream.Read(bytes, 0, filestep);
+                            //fs.Seek(offset, SeekOrigin.Begin);
+                            fs.Position = offset;
+                            fs.Write(bytes, 0, length);
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+                        finally
+                        {
+                            fs?.Flush();
+                            fs?.Dispose();
+                            fs?.Close();
+                        }
 
                         res.Output.Write(result);
                         res.Output.Flush();
