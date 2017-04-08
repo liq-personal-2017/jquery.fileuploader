@@ -85,3 +85,8 @@
             
             disable : 设置/获取 可用状态 ok
         }
+
+
+最终实现效果如下（主要演示回调函数）：
+
+ ![演示图片](https://github.com/liq-personal-2017/jquery.fileuploader/blob/master/img/%E7%A4%BA%E4%BE%8B.png)
